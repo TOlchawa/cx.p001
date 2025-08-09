@@ -8,6 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import lombok.NoArgsConstructor;
 import org.springframework.context.ConfigurableApplicationContext;
+import pl.cx.p001.model.Arena;
+import pl.cx.p001.model.Cell;
 
 @NoArgsConstructor
 public class PixelGui extends Application {
@@ -22,20 +24,25 @@ public class PixelGui extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        PixelModel model = springContext.getBean(PixelModel.class);
-        Canvas canvas = new Canvas(300, 300);
-        drawModel(canvas.getGraphicsContext2D(), model);
+        Arena arena = springContext.getBean(Arena.class);
+        int cellSize = 4;
+        int width = arena.getWidth();
+        int height = arena.getHeight();
+        Canvas canvas = new Canvas(width * cellSize, height * cellSize);
+        drawArena(canvas.getGraphicsContext2D(), arena, cellSize);
         StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root, 320, 320);
-        primaryStage.setTitle("Pixel Model Viewer");
+        Scene scene = new Scene(root, width * cellSize + 20, height * cellSize + 20);
+        primaryStage.setTitle("Arena Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void drawModel(GraphicsContext gc, PixelModel model) {
-        for (int y = 0; y < model.height; y++) {
-            for (int x = 0; x < model.width; x++) {
-                gc.getPixelWriter().setColor(x, y, model.getColor(x, y));
+    private void drawArena(GraphicsContext gc, Arena arena, int cellSize) {
+        for (int y = 0; y < arena.getHeight(); y++) {
+            for (int x = 0; x < arena.getWidth(); x++) {
+                Cell cell = arena.getCell(x, y, 0);
+                gc.setFill(cell.getColor());
+                gc.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
     }

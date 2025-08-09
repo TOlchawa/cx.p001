@@ -11,6 +11,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.ConfigurableApplicationContext;
+import pl.cx.p001.model.Arena;
+import pl.cx.p001.model.ArenaProvider;
+import pl.cx.p001.model.Cell;
+import pl.cx.p001.model.AssetType;
+
+import java.util.Random;
 
 @SpringBootApplication
 public class PixelGuiApp {
@@ -22,6 +28,25 @@ public class PixelGuiApp {
     @Bean
     public PixelModel pixelModel() {
         return new PixelModel();
+    }
+
+    @Bean
+    public ArenaProvider arenaProvider() {
+        return new ArenaProvider();
+    }
+
+    @Bean
+    public Arena arena(ArenaProvider provider) {
+        Arena arena = provider.generateDefaultArena();
+        Random rand = new Random();
+        for (int x = 0; x < arena.getWidth(); x++) {
+            for (int y = 0; y < arena.getHeight(); y++) {
+                Cell cell = arena.getCell(x, y, 0);
+                if (rand.nextDouble() < 0.05) cell.setAssetCount(AssetType.ENERGY, rand.nextInt(10) + 1);
+                if (rand.nextDouble() < 0.05) cell.setAssetCount(AssetType.MATTER, rand.nextInt(10) + 1);
+            }
+        }
+        return arena;
     }
 }
 
