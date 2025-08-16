@@ -18,12 +18,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RobotsManager {
     private final Arena arena;
-    private final RobotListener robotListener;
+
     private final List<Robot> robots = new CopyOnWriteArrayList<>();
 
-    public RobotsManager(Arena arena, RobotListener robotListener) {
+    public RobotsManager(Arena arena) {
         this.arena = arena;
-        this.robotListener = robotListener;
         // Add two default robots with average non-zero parameters
         robots.add(new Robot(
             new Sensor("Camera", 0.5),

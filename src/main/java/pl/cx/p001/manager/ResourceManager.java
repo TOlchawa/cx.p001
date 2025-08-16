@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import pl.cx.p001.events.ArenaListener;
 import pl.cx.p001.events.ArenaUpdateEvent;
+import pl.cx.p001.gui.PixelGui;
 import pl.cx.p001.model.Arena;
 import pl.cx.p001.model.AssetType;
 import pl.cx.p001.model.Cell;
@@ -16,7 +17,7 @@ import pl.cx.p001.model.Cell;
 @AllArgsConstructor
 public class ResourceManager {
     private final Arena arena;
-    private final ArenaListener arenaListener;
+//    private final ArenaListener arenaListener;
 
     public void initialize() {
 //        for (int x = 0; x < arena.getWidth(); x++) {
@@ -29,15 +30,15 @@ public class ResourceManager {
 //                }
 //            }
 //        }
-        arenaListener.onArenaUpdated(new ArenaUpdateEvent(arena, 0, 0, 0, ArenaUpdateEvent.Type.FULL_UPDATE));
+        PixelGui.getInstance().onArenaUpdated(new ArenaUpdateEvent(arena, 0, 0, 0, ArenaUpdateEvent.Type.FULL_UPDATE));
     }
 
     public void addAsset(int x, int y, int z, AssetType type, int amount) {
         Cell cell = arena.getCell(x, y, z);
         int current = cell.getAssetCount(type);
         cell.setAssetCount(type, current + amount);
-        if (arenaListener != null) {
-            arenaListener.onArenaUpdated(new ArenaUpdateEvent(
+        if (PixelGui.getInstance() != null) {
+            PixelGui.getInstance().onArenaUpdated(new ArenaUpdateEvent(
                 arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
         }
     }
@@ -46,8 +47,8 @@ public class ResourceManager {
         Cell cell = arena.getCell(x, y, z);
         int current = cell.getAssetCount(type);
         cell.setAssetCount(type, Math.max(0, current - amount));
-        if (arenaListener != null) {
-            arenaListener.onArenaUpdated(new ArenaUpdateEvent(
+        if (PixelGui.getInstance() != null) {
+            PixelGui.getInstance().onArenaUpdated(new ArenaUpdateEvent(
                 arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
         }
     }

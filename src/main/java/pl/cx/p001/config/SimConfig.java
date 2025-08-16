@@ -38,7 +38,7 @@ public class SimConfig {
     }
 
     @Bean
-    public Arena arena(ArenaProvider provider, ArenaListener listener) {
+    public Arena arena(ArenaProvider provider) {
         Arena arena = provider.generateArena(arenaWidth, arenaHeight, arenaDepth);
         Random rand = new Random();
         for (int x = 0; x < arena.getWidth(); x++) {
@@ -52,14 +52,14 @@ public class SimConfig {
     }
 
     @Bean
-    ResourceManager getResourceManager(Arena arena, ArenaListener listener) {
-        return new ResourceManager(arena, listener);
+    ResourceManager getResourceManager(Arena arena) {
+        return new ResourceManager(arena);
     }
 
 
     @Bean
-    RobotsManager getRobotsManager(Arena arena, RobotListener robotListener) {
-        return new RobotsManager(arena, robotListener);
+    RobotsManager getRobotsManager(Arena arena) {
+        return new RobotsManager(arena);
     }
 
     @Lazy
