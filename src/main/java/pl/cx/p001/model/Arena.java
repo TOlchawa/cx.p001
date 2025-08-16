@@ -2,6 +2,10 @@ package pl.cx.p001.model;
 
 import pl.cx.p001.model.Cell;
 
+/**
+ * Arena represents the world map where gameplay takes place.
+ * It is a rectangular grid of cells, each cell can hold assets/resources.
+ */
 public class Arena {
     private final int width;
     private final int height;

@@ -1,5 +1,9 @@
 package pl.cx.p001.model;
 
+/**
+ * ArenaProvider is a service class for generating Arena instances.
+ * Provides methods to create default or custom world maps.
+ */
 public class ArenaProvider {
     /**
      * Generates a default Arena with default size and assets.
@@ -18,5 +22,21 @@ public class ArenaProvider {
         }
         return arena;
     }
-}
 
+    /**
+     * Generates an Arena with given size and initializes all cells with zero assets.
+     */
+    public Arena generateArena(int width, int height, int depth) {
+        Arena arena = new Arena(width, height, depth);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                for (int z = 0; z < depth; z++) {
+                    Cell cell = arena.getCell(x, y, z);
+                    cell.setAssetCount(AssetType.MATTER, 0);
+                    cell.setAssetCount(AssetType.ENERGY, 0);
+                }
+            }
+        }
+        return arena;
+    }
+}

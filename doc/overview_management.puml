@@ -1,0 +1,53 @@
+@startuml
+' Overview of manager package and related interactions
+
+package "manager" {
+  class RobotsManager {
+    + addRobot(robot: Robot)
+    + removeRobot(robot: Robot)
+    + getRobots(): List<Robot>
+    + getRobotCount(): int
+  }
+  class ResourceManager {
+    - arena: Arena
+    + addAsset(x, y, z, type, amount)
+    + removeAsset(x, y, z, type, amount)
+    + getAssetCount(x, y, z, type): int
+  }
+  class SimulatorManager {
+    + generateDefaultArena(): Arena
+  }
+}
+
+RobotsManager --> "*" Robot
+ResourceManager --> Arena
+ResourceManager --> Cell
+SimulatorManager --> Arena
+
+package "model" {
+  class Arena
+  class Cell
+  class AssetType <<enum>>
+}
+Arena --> Cell
+Cell --> AssetType
+
+package "model.robot" {
+  class Robot
+}
+
+package "gui" {
+  class PixelGui
+}
+
+package "events" {
+  interface ArenaListener {
+    + onCellUpdated(arena, x, y, z, cell)
+  }
+}
+
+PixelGui ..|> ArenaListener : implements
+ResourceManager --> ArenaListener : notifies
+ResourceManager --> PixelGui : notifies
+
+@enduml

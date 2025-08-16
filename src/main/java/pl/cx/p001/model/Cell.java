@@ -5,6 +5,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import javafx.scene.paint.Color;
 
+/**
+ * Represents a cell (area) on the Arena grid.
+ * Each cell contains assets (resources) such as MATTER and ENERGY.
+ * The color of the cell is determined by the assets it contains.
+ */
 public class Cell {
     private final Map<AssetType, Integer> assets = new EnumMap<>(AssetType.class);
 

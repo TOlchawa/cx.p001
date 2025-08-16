@@ -1,0 +1,68 @@
+@startuml
+' Model overview for pl.cx.p001.model and subpackages
+
+package "model" {
+  class Arena {
+    - width: int
+    - height: int
+    - depth: int
+    - cells: Cell[][][]
+    + getCell(x, y, z): Cell
+  }
+  class ArenaProvider {
+    + generateDefaultArena(): Arena
+  }
+  class AssetType <<enum>> {
+    MATTER
+    ENERGY
+  }
+  class Cell {
+    - assets: Map<AssetType, Integer>
+    + getAssetCount(type: AssetType): int
+    + setAssetCount(type: AssetType, count: int)
+    + getColor(): Color
+  }
+}
+
+package "model.robot" {
+  class Robot {
+    - sensor: Sensor
+    - actuator: Actuator
+    - drive: Drive
+    - battery: Battery
+  }
+  class Sensor {
+    - type: String
+    - range: double
+  }
+  class Actuator {
+    - type: String
+    - strength: double
+  }
+  class Drive {
+    - type: String
+    - speed: double
+  }
+  class Battery {
+    - capacity: double
+    - currentLevel: double
+    - condition: double
+  }
+}
+
+package "model.infrastructura" {
+  class Facility {
+    - condition: double
+    - energyDemand: double
+    - battery: Battery
+  }
+}
+
+Arena --> Cell
+Cell --> AssetType
+Robot --> Sensor
+Robot --> Actuator
+Robot --> Drive
+Robot --> Battery
+Facility ..> Battery : uses
+@enduml
