@@ -27,14 +27,17 @@ import java.util.Random;
 @Configuration
 public class SimConfig {
     // Arena size parameters
-    private final int arenaWidth = 100;
-    private final int arenaHeight = 100;
-    private final int arenaDepth = 1;
+    @org.springframework.beans.factory.annotation.Value("${sim.arena.width:100}")
+    private int arenaWidth;
+    @org.springframework.beans.factory.annotation.Value("${sim.arena.height:100}")
+    private int arenaHeight;
+    @org.springframework.beans.factory.annotation.Value("${sim.arena.depth:1}")
+    private int arenaDepth;
 
 
     @Bean
-    public ArenaProvider arenaProvider() {
-        return new ArenaProvider();
+    public ArenaProvider arenaProvider(SimConfig simConfig) {
+        return new ArenaProvider(simConfig);
     }
 
     @Bean

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 public class GuiConfig {
-    private final int guiMapWidth = 100;
-    private final int guiMapHeight = 100;
-    private final int guiCellSize = 5;
+    private final int guiMapWidth = 200;
+    private final int guiMapHeight = 200;
+    private final int guiCellSize = 10;
 }

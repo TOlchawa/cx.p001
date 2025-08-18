@@ -1,6 +1,6 @@
 package pl.cx.p001.model;
 
-import pl.cx.p001.model.Cell;
+import pl.cx.p001.config.SimConfig;
 
 /**
  * Arena represents the world map where gameplay takes place.
@@ -11,10 +11,6 @@ public class Arena {
     private final int height;
     private final int depth;
     private final Cell[][][] cells;
-
-    public Arena() {
-        this(100, 100, 1);
-    }
 
     public Arena(int width, int height, int depth) {
         this.width = width;
@@ -30,9 +26,20 @@ public class Arena {
         }
     }
 
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
-    public int getDepth() { return depth; }
-    public Cell getCell(int x, int y, int z) { return cells[x][y][z]; }
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public Cell getCell(int x, int y, int z) {
+        return cells[x][y][z];
+    }
 
 }

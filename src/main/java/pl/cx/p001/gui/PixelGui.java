@@ -8,11 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Service;
-import pl.cx.p001.config.GuiConfig;
 import pl.cx.p001.events.ArenaListener;
 import pl.cx.p001.events.RobotListener;
 import pl.cx.p001.events.RobotUpdateEvent;
@@ -42,24 +38,20 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
     }
 
     public PixelGui() {
-        // Use default values if GuiConfig is not initialized yet
-        this.width = 100;
-        this.height = 100;
-        this.cellSize = 5;
+        // Set default values, do not use springContext here
+        width = 50;
+        height = 50;
+        cellSize = 3;
         this.canvas = new Canvas(width * cellSize, height * cellSize);
-
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        System.out.println("PixelGui constructor called, canvas: " + canvas);
-
-
-        drawBlankArena();
+        clearArena();
     }
 
     @Override
     public void start(Stage primaryStage) {
         instance = this; // set the static reference to the running instance
+        canvas.setWidth(width * cellSize);
+        canvas.setHeight(height * cellSize);
+        clearArena();
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root, width * cellSize + 20, height * cellSize + 20);
         primaryStage.setTitle("Arena Viewer");
@@ -68,30 +60,17 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
 
     }
 
-    private void drawBlankArena() {
+    private void clearArena() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.BLACK);
         gc.clearRect(0, 0, width * cellSize, height * cellSize);
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Color color = Color.BLACK;
-                gc.setFill(color);
-                gc.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-            }
-        }
     }
 
     private void drawArena(Arena arena) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, width * cellSize, height * cellSize); // clear the whole canvas
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Cell cell = arena.getCell(x, y, 0);
-                Color color = cell.getColor();
-                if (color == null) {
-                    color = Color.BLACK;
-                }
-                gc.setFill(color);
-                gc.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                drawCell(arena, x, y, 0); // Assuming z=0 for 2D view
             }
         }
     }
@@ -100,7 +79,7 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Cell cell = arena.getCell(x, y, z);
         gc.setFill(cell.getColor());
-        gc.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 2, cellSize - 2);
+        gc.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
 
 
@@ -108,7 +87,32 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
     @Override
     public void onArenaUpdated(pl.cx.p001.events.ArenaUpdateEvent event) {
         if (event.getType() == pl.cx.p001.events.ArenaUpdateEvent.Type.FULL_UPDATE) {
+            width = event.getArena().getWidth();
+            height = event.getArena().getHeight();
+            canvas.setWidth(width * cellSize);
+            canvas.setHeight(height * cellSize);
+            clearArena();
             drawArena(event.getArena());
+            // Adjust window size to fit canvas, but do not exceed max size
+            Stage stage = (Stage) canvas.getScene().getWindow();
+            double maxWidth = 1200;
+            double maxHeight = 900;
+            double newWidth = Math.min(width * cellSize + 20, maxWidth);
+            double newHeight = Math.min(height * cellSize + 20, maxHeight);
+            stage.setWidth(newWidth);
+            stage.setHeight(newHeight);
+            // Center window on screen, but keep it fully visible
+            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+            double x = Math.max(screenBounds.getMinX(), screenBounds.getMinX() + (screenBounds.getWidth() - newWidth) / 2);
+            double y = Math.max(screenBounds.getMinY(), screenBounds.getMinY() + (screenBounds.getHeight() - newHeight) / 2);
+            // Ensure window is not outside visible area
+            if (x + newWidth > screenBounds.getMaxX()) x = screenBounds.getMaxX() - newWidth;
+            if (y + newHeight > screenBounds.getMaxY()) y = screenBounds.getMaxY() - newHeight;
+            stage.setX(x);
+            stage.setY(y);
+
+
+
         } else if (event.getType() == pl.cx.p001.events.ArenaUpdateEvent.Type.CELL_UPDATE) {
             drawCell(event.getArena(), event.getX(), event.getY(), event.getZ());
         }

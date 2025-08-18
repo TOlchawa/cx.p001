@@ -1,16 +1,26 @@
 package pl.cx.p001.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import pl.cx.p001.config.SimConfig;
+
 /**
  * ArenaProvider is a service class for generating Arena instances.
  * Provides methods to create default or custom world maps.
  */
+@Getter
+@Setter
+@AllArgsConstructor
 public class ArenaProvider {
+    private SimConfig simConfig;
+
     /**
      * Generates a default Arena with default size and assets.
      * All cells are initialized with zero MATTER and ENERGY.
      */
     public Arena generateDefaultArena() {
-        Arena arena = new Arena();
+        Arena arena = new Arena(simConfig.getArenaWidth(), simConfig.getArenaHeight(), simConfig.getArenaDepth());
         for (int x = 0; x < arena.getWidth(); x++) {
             for (int y = 0; y < arena.getHeight(); y++) {
                 for (int z = 0; z < arena.getDepth(); z++) {
