@@ -20,19 +20,14 @@ public class RobotsManager {
     public RobotsManager(Arena arena) {
         this.arena = arena;
         // Add two default robots with average non-zero parameters
-        Battery battery = Battery.builder().capacity(1.0).condition(0.8).currentLevel(0.9).build();
         robots.add(SimpleRobot.builder()
                 .id("id2")
                 .sensor(Sensor.builder().type("Camera").range(0.5).build())
                 .actuator(Actuator.builder().typeName("Gripper").strength(0.6).build())
                 .drive(Drive.builder().type("Wheels").speed(0.7).build())
-                .battery(battery)
+                .battery(Battery.builder().capacity(1.0).condition(0.8).currentLevel(0.9).build())
                 .build()
         );
-        battery.setCondition(1.0);
-        System.out.println("battery: " + battery);
-        battery.setCondition(0.0);
-        System.out.println("battery: " + battery);
         robots.add(SimpleRobot.builder()
                 .id("id2")
                 .sensor(Sensor.builder().type("Infrared").range(0.4).build())
