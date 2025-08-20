@@ -4,18 +4,13 @@ import lombok.Getter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.event.EventListener;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import pl.cx.p001.events.ArenaListener;
-import pl.cx.p001.events.ArenaUpdateEvent;
-import pl.cx.p001.events.RobotListener;
 import pl.cx.p001.manager.ResourceManager;
 import pl.cx.p001.manager.RobotsManager;
 import pl.cx.p001.manager.SimulatorManager;
 import pl.cx.p001.model.Arena;
 import pl.cx.p001.model.ArenaProvider;
-import pl.cx.p001.model.Cell;
 import pl.cx.p001.model.AssetType;
+import pl.cx.p001.model.Cell;
 
 import java.util.Random;
 

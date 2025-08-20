@@ -5,13 +5,15 @@
 package pl.cx.p001.model.robot;
 
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
+@SuperBuilder
 public class Battery {
     /**
      * Maximum capacity of the battery (energy units)
      */
-    private final double capacity;
+    private double capacity;
     /**
      * Current charge level (energy units)
      */
@@ -21,10 +23,5 @@ public class Battery {
      */
     private double condition;
 
-    public Battery(double capacity, double currentLevel, double condition) {
-        this.capacity = capacity;
-        this.currentLevel = currentLevel;
-        this.condition = condition;
-    }
 }
 

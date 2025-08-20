@@ -1,8 +1,6 @@
 package pl.cx.p001.manager;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
-import pl.cx.p001.events.ArenaListener;
 import pl.cx.p001.events.ArenaUpdateEvent;
 import pl.cx.p001.gui.PixelGui;
 import pl.cx.p001.model.Arena;
@@ -39,7 +37,7 @@ public class ResourceManager {
         cell.setAssetCount(type, current + amount);
         if (PixelGui.getInstance() != null) {
             PixelGui.getInstance().onArenaUpdated(new ArenaUpdateEvent(
-                arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
+                    arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
         }
     }
 
@@ -49,7 +47,7 @@ public class ResourceManager {
         cell.setAssetCount(type, Math.max(0, current - amount));
         if (PixelGui.getInstance() != null) {
             PixelGui.getInstance().onArenaUpdated(new ArenaUpdateEvent(
-                arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
+                    arena, x, y, z, ArenaUpdateEvent.Type.CELL_UPDATE));
         }
     }
 

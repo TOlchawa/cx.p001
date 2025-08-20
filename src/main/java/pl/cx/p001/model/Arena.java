@@ -1,7 +1,5 @@
 package pl.cx.p001.model;
 
-import pl.cx.p001.config.SimConfig;
-
 /**
  * Arena represents the world map where gameplay takes place.
  * It is a rectangular grid of cells, each cell can hold assets/resources.

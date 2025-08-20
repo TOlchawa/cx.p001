@@ -1,7 +1,8 @@
-package pl.cx.p001.model.robot;
+package pl.cx.p001.impl.simple;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import pl.cx.p001.model.robot.Drive;
 
 /**
  * Drive represents the robot's drive system, such as wheels or tracks.
@@ -9,7 +10,6 @@ import lombok.experimental.SuperBuilder;
  */
 @Data
 @SuperBuilder
-public class Drive {
-    private final String type;
-    private double speed;
+public class SimpleDrive extends Drive {
+    private String id;
 }

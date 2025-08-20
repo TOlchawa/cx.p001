@@ -25,17 +25,11 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
     private static PixelGui instance;
     private static ConfigurableApplicationContext springContext;
     private static String[] args;
+    private final int cellSize;
+    private final Canvas canvas;
     private int width;
     private int height;
-    private int cellSize;
-    private Canvas canvas;
 
-
-    public static void launchApp(ConfigurableApplicationContext context, String[] launchArgs) {
-        springContext = context;
-        args = launchArgs;
-        launch(launchArgs);
-    }
 
     public PixelGui() {
         // Set default values, do not use springContext here
@@ -44,6 +38,12 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
         cellSize = 3;
         this.canvas = new Canvas(width * cellSize, height * cellSize);
         clearArena();
+    }
+
+    public static void launchApp(ConfigurableApplicationContext context, String[] launchArgs) {
+        springContext = context;
+        args = launchArgs;
+        launch(launchArgs);
     }
 
     @Override
@@ -83,7 +83,6 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
     }
 
 
-
     @Override
     public void onArenaUpdated(pl.cx.p001.events.ArenaUpdateEvent event) {
         if (event.getType() == pl.cx.p001.events.ArenaUpdateEvent.Type.FULL_UPDATE) {
@@ -110,7 +109,6 @@ public class PixelGui extends Application implements ArenaListener, RobotListene
             if (y + newHeight > screenBounds.getMaxY()) y = screenBounds.getMaxY() - newHeight;
             stage.setX(x);
             stage.setY(y);
-
 
 
         } else if (event.getType() == pl.cx.p001.events.ArenaUpdateEvent.Type.CELL_UPDATE) {

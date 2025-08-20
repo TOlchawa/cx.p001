@@ -1,7 +1,8 @@
-package pl.cx.p001.model.robot;
+package pl.cx.p001.impl.simple;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import pl.cx.p001.model.robot.Sensor;
 
 /**
  * Sensor represents a robot's sensor device, such as a camera or infrared sensor.
@@ -9,7 +10,6 @@ import lombok.experimental.SuperBuilder;
  */
 @Data
 @SuperBuilder
-public class Sensor {
-    private final String type;
-    private double range;
+public class SimpleSensor extends Sensor {
+    private String id;
 }

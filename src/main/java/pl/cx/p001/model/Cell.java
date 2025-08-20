@@ -1,9 +1,10 @@
 package pl.cx.p001.model;
 
+import javafx.scene.paint.Color;
+
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
-import javafx.scene.paint.Color;
 
 /**
  * Represents a cell (area) on the Arena grid.

@@ -11,12 +11,6 @@ import pl.cx.p001.model.robot.Robot;
 @Getter
 @RequiredArgsConstructor
 public class RobotUpdateEvent {
-    public enum Type {
-        MOVE,
-        DESTROY,
-        CREATE
-    }
-
     private final Robot robot;
     private final Type type;
     private final int x0, y0, z0;
@@ -30,5 +24,11 @@ public class RobotUpdateEvent {
     // For CREATE/DESTROY event
     public static RobotUpdateEvent simple(Robot robot, Type type) {
         return new RobotUpdateEvent(robot, type, -1, -1, -1, -1, -1, -1);
+    }
+
+    public enum Type {
+        MOVE,
+        DESTROY,
+        CREATE
     }
 }

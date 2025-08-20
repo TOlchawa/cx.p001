@@ -9,7 +9,7 @@ public class PixelModel {
     public final int height = 300;
 
     public javafx.scene.paint.Color getColor(int x, int y) {
-        return javafx.scene.paint.Color.color((double)x/width, (double)y/height, 0.5);
+        return javafx.scene.paint.Color.color((double) x / width, (double) y / height, 0.5);
     }
 }
 

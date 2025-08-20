@@ -5,11 +5,6 @@ package pl.cx.p001.events;
  * Contains a reference to the Arena and the coordinates of the updated cell.
  */
 public class ArenaUpdateEvent {
-    public enum Type {
-        CELL_UPDATE,
-        FULL_UPDATE
-    }
-
     private final pl.cx.p001.model.Arena arena;
     private final int x;
     private final int y;
@@ -42,5 +37,10 @@ public class ArenaUpdateEvent {
 
     public Type getType() {
         return type;
+    }
+
+    public enum Type {
+        CELL_UPDATE,
+        FULL_UPDATE
     }
 }

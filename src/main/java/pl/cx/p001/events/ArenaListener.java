@@ -1,8 +1,5 @@
 package pl.cx.p001.events;
 
-import pl.cx.p001.model.Arena;
-import pl.cx.p001.model.Cell;
-
 /**
  * ArenaListener listens for events related to changes in the Arena.
  * Implement this interface to react to cell updates, asset changes, etc.
@@ -10,6 +7,7 @@ import pl.cx.p001.model.Cell;
 public interface ArenaListener {
     /**
      * Called when an update event occurs in the Arena (e.g. cell or full map update).
+     *
      * @param event the ArenaUpdateEvent containing update details
      */
     void onArenaUpdated(ArenaUpdateEvent event);
