@@ -30,7 +30,16 @@ public class SimulatorManager {
         }
         // Simulation loop example
         while (true) {
-            // TODO: Add simulation logic here
+            robotsManager.getRobots().forEach(robot -> {
+                // sensor OUT -->  IN think OUT -->
+                //                      | [IN sensor OUT     --> battery] --> ...
+                //                      | [IN actuator       --> battery]
+                //                      | [IN drive          --> battery]
+                float[] commands = robot.process(robot.sensor().process(robot.memory()));
+                robot.actuator().process(commands);
+                robot.drive().process(commands);
+                // to jest do rozwazenia - powinno byc rownolegle
+            });
             try {
                 Thread.sleep(1000); // simulation tick
             } catch (InterruptedException e) {

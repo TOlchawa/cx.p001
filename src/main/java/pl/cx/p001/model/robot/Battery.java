@@ -5,10 +5,20 @@
 package pl.cx.p001.model.robot;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-@Data
+/**
+ * Battery represents the robot's power source.
+ * It contains information about capacity, current charge, and condition.
+ * In other words: sugar, fat, fuel tank, battery, etc.
+ */
+@Getter
+@Setter
 @SuperBuilder
+@Accessors(fluent = true)
 public class Battery {
     /**
      * Maximum capacity of the battery (energy units)

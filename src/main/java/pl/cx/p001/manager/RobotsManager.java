@@ -1,8 +1,8 @@
 package pl.cx.p001.manager;
 
+import pl.cx.p001.impl.simple.*;
 import pl.cx.p001.model.Arena;
 import pl.cx.p001.model.robot.*;
-import pl.cx.p001.impl.simple.SimpleRobot;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,19 +21,17 @@ public class RobotsManager {
         this.arena = arena;
         // Add two default robots with average non-zero parameters
         robots.add(SimpleRobot.builder()
-                .id("id2")
-                .sensor(Sensor.builder().type("Camera").range(0.5).build())
-                .actuator(Actuator.builder().typeName("Gripper").strength(0.6).build())
-                .drive(Drive.builder().type("Wheels").speed(0.7).build())
-                .battery(Battery.builder().capacity(1.0).condition(0.8).currentLevel(0.9).build())
+                .sensor(SimpleSensor.builder().type("Camera").range(0.5).build())
+                .actuator(SimpleActuator.builder().typeName("Gripper").strength(0.6).build())
+                .drive(SimpleDrive.builder().type("Wheels").speed(0.7).build())
+                .battery(SimpleBattery.builder().capacity(1.0).condition(0.8).currentLevel(0.9).build())
                 .build()
         );
         robots.add(SimpleRobot.builder()
-                .id("id2")
-                .sensor(Sensor.builder().type("Infrared").range(0.4).build())
-                .actuator(Actuator.builder().typeName("Arm").strength(0.5).build())
-                .drive(Drive.builder().type("Tracks").speed(0.6).build())
-                .battery(Battery.builder().currentLevel(0.9).condition(0.7).capacity(0.8).build())
+                .sensor(SimpleSensor.builder().type("Infrared").range(0.4).build())
+                .actuator(SimpleActuator.builder().typeName("Arm").strength(0.5).build())
+                .drive(SimpleDrive.builder().type("Tracks").speed(0.6).build())
+                .battery(SimpleBattery.builder().currentLevel(0.9).condition(0.7).capacity(0.8).build())
                 .build()
         );
     }

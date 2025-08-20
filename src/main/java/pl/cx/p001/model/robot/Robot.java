@@ -1,8 +1,7 @@
 package pl.cx.p001.model.robot;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -11,11 +10,15 @@ import lombok.experimental.SuperBuilder;
  * It consists of a sensor, actuator (manipulator), drive system, and battery.
  * Each component models a real-world robot part.
  */
-@Data
+@Getter
+@Setter
 @SuperBuilder
-public class Robot {
+@Accessors(fluent = true)
+public abstract class Robot {
     private Sensor sensor;
     private Actuator actuator;
     private Drive drive;
     private Battery battery;
+    private float[] memory; // shortMemory
+    public abstract float[] process(float[] in);
 }

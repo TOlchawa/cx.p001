@@ -2,8 +2,11 @@ package pl.cx.p001.impl.simple;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import pl.cx.p001.model.robot.Robot;
+
+import java.util.UUID;
 
 /**
  * SimpleRobot is a basic implementation of the Robot class.
@@ -13,8 +16,12 @@ import pl.cx.p001.model.robot.Robot;
 @Getter
 @Setter
 @SuperBuilder
+@Accessors(fluent = true)
 public class SimpleRobot extends Robot {
+    private final UUID id = UUID.randomUUID();
 
-    private String id;
-
+    @Override
+    public float[] process(float[] in) {
+        return new float[0];
+    }
 }

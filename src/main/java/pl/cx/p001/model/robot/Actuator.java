@@ -9,15 +9,22 @@
 package pl.cx.p001.model.robot;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 /**
  * Actuator represents a robot manipulator, such as an arm or gripper.
  * It is characterized by its type and strength.
+ * In other words: hands, arms, grippers, etc.
  */
-@Data
+@Getter
+@Setter
 @SuperBuilder
-public class Actuator {
+@Accessors(fluent = true)
+public abstract class Actuator {
     private final String typeName;
     private final double strength;
+    public abstract float[] process(float[] in);
 }
