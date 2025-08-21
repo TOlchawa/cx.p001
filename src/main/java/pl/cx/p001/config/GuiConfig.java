@@ -1,6 +1,7 @@
 package pl.cx.p001.config;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,7 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 public class GuiConfig {
-    private final int guiMapWidth = 200;
-    private final int guiMapHeight = 200;
-    private final int guiCellSize = 10;
+    @Value("${gui.map.width:200}")
+    private int guiMapWidth;
+    @Value("${gui.map.height:200}")
+    private int guiMapHeight;
+    @Value("${gui.cell.size:10}")
+    private int guiCellSize;
 }

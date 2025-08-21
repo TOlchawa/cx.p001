@@ -2,7 +2,10 @@ package pl.cx.p001.manager;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.cx.p001.gui.PixelGui;
 import pl.cx.p001.model.Arena;
+import pl.cx.p001.model.robot.FrameCodec;
+import pl.cx.p001.model.robot.Robot;
 
 /**
  * SimulatorManager is responsible for managing the simulation logic and world generation.
@@ -16,32 +19,29 @@ public class SimulatorManager {
     private final Arena arena;
 
     public void initialize() {
-        Thread simulationThread = new Thread(() -> runSimulation(), "SimulationThread");
+        Thread simulationThread = new Thread(this::runSimulation, "SimulationThread");
         simulationThread.setDaemon(true);
         simulationThread.start();
     }
 
     private void runSimulation() {
-        try {
-            Thread.sleep(1000);
-            resourceManager.initialize();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        // Ensure GUI is ready before first paint/event
+        PixelGui.awaitReady();
+        resourceManager.initialize();
         // Simulation loop example
         while (true) {
-            robotsManager.getRobots().forEach(robot -> {
-                // sensor OUT -->  IN think OUT -->
-                //                      | [IN sensor OUT     --> battery] --> ...
-                //                      | [IN actuator       --> battery]
-                //                      | [IN drive          --> battery]
-                float[] commands = robot.process(robot.sensor().process(robot.memory()));
-                robot.actuator().process(commands);
-                robot.drive().process(commands);
-                // to jest do rozwazenia - powinno byc rownolegle
-            });
+            for (Robot robot : robotsManager.getRobots()) {
+                float[] frame = FrameCodec.pack(robot.getLastSensorOut(), robot.getLastDriveOut(), robot.getLastActuatorOut());
+                float[] cmd = robot.process(frame);
+                float[] sensorOut = robot.sensor().process(cmd);
+                float[] driveOut = robot.drive().process(cmd);
+                float[] actuatorOut = robot.actuator().process(cmd);
+                robot.setLastSensorOut(sensorOut);
+                robot.setLastDriveOut(driveOut);
+                robot.setLastActuatorOut(actuatorOut);
+            }
             try {
-                Thread.sleep(1000); // simulation tick
+                Thread.sleep(500); // simulation tick
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

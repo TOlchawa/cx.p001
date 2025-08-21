@@ -33,5 +33,9 @@ public class Battery {
      */
     private double condition;
 
+    public double getStateOfCharge() { return capacity == 0 ? 0 : currentLevel / capacity; }
+    public boolean hasEnergy(double amount) { return currentLevel >= amount && condition > 0; }
+    public double consume(double amount) { if (amount <= 0) return 0; double taken = Math.min(currentLevel, amount); currentLevel -= taken; return taken; }
+    public void charge(double amount) { if (amount <= 0) return; currentLevel = Math.min(capacity, currentLevel + amount); }
+    public void degrade(double delta) { if (delta <= 0) return; condition = Math.max(0, condition - delta); }
 }
-

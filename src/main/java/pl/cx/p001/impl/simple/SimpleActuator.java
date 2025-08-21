@@ -8,6 +8,9 @@ import pl.cx.p001.model.robot.Actuator;
 
 import java.util.UUID;
 
+/**
+ * Prosta implementacja Actuator: skaluje wejście przez strength i ogranicza do [-1,1].
+ */
 @Getter
 @Setter
 @SuperBuilder
@@ -17,6 +20,13 @@ public class SimpleActuator extends Actuator {
 
     @Override
     public float[] process(float[] in) {
-        return new float[0];
+        if (in == null) return new float[0];
+        float[] out = new float[in.length];
+        for (int i=0;i<in.length;i++) {
+            double v = in[i] * strength();
+            if (v > 1) v = 1; else if (v < -1) v = -1;
+            out[i] = (float) v;
+        }
+        return out;
     }
 }
